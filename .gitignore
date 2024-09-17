@@ -31,5 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1_basic_app
 id_rsa*
