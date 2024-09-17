@@ -6,3 +6,6 @@ This aims to be a helpful step - by - step guide for setting up SpringBoot and a
      - spring-boot-starter-test
      - lombok
   Once you have the structure, add a Controller and make a super basic GET endpoint that responds with "Hello World"
+
+2) Step 2: Lets add a new Service (create a file under `service/ExampleService.java`) that fetches a value from `resources/application.properties` and returns it. Add a new endpoint to the controller to surface this String
+
