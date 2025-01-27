@@ -1,0 +1,7 @@
+1. Build the code (mvn clean install)
+2. Copy the new jar file -- scp -i ~/Downloads/sunya-test_key.pem ~/Documents/Learning/CICD/target/demo-0.0.1-SNAPSHOT.jar azureuser@172.214.32.74:/home/azureuser/spring.jar
+3. Run the jar file, stop any other jar file that was running (we'll worry about that later) -- ssh -i ~/Downloads/sunya-test_key.pem azureuser@172.214.32.74 "sudo kill $(pidof "java") ; nohup java -jar spring.jar > /dev/null 2>&1 &"
+
+Homework:
+Look up how to write github actions (find a hello world example, will just echo hello world). Chuck in these commands.
+Hello world github actions yaml with the commands we have (commands will break)
