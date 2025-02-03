@@ -22,7 +22,7 @@ on: push
 
 jobs:
   build:
-    runs-on: linux
+    runs-on: self-hosted
     container:
       image: maven:3-openjdk-8
     steps:
@@ -45,7 +45,7 @@ jobs:
           path: ${{ env.JAR_FILE }}
 
   deploy:
-    runs-on: linux
+    runs-on: self-hosted
     needs: build # Ensure deploy runs after build
     container:
       image: ubuntu:latest
