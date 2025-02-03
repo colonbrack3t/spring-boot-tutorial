@@ -5,3 +5,6 @@
 Homework:
 Look up how to write github actions (find a hello world example, will just echo hello world). Chuck in these commands.
 Hello world github actions yaml with the commands we have (commands will break)
+
+
+Try not to use finder at all, use terminal commands only. ls, cp, find, touch, cat, vim, nano, etc.
