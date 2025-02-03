@@ -1,0 +1,59 @@
+# name: build
+# # on
+# jobs:
+#   build:
+#     container:
+#       image: maven:3-openjdk-8
+#     steps:
+#       - name: maven-build
+#         run:  mvn clean install
+#   deploy:
+#     container:
+#       image: ubuntu:latest
+#     steps:
+#       - name: build
+#         run: |
+#           -- scp -i ~/Downloads/sunya-test_key.pem target/demo-0.0.1-SNAPSHOT.jar azureuser@172.214.32.74:/home/azureuser/spring.jar
+#           -- ssh -i ~/Downloads/sunya-test_key.pem azureuser@172.214.32.74 "sudo kill $(pidof "java") ; nohup java -jar spring.jar > /dev/null 2>&1 &"
+
+name: CI/CD Pipeline
+
+# on
+
+jobs:
+  build:
+    container:
+      image: maven:3-openjdk-8
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Maven Build
+        run: mvn clean install
+
+      - name: Get JAR file name
+        id: jar_name
+        run: |
+          JAR_FILE=$(find target -name "*.jar" -print -quit)
+          echo "JAR_FILE=${JAR_FILE}" >> $GITHUB_ENV
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: spring-jar
+          path: ${{ env.JAR_FILE }}
+
+  deploy:
+    needs: build # Ensure deploy runs after build
+    container:
+      image: ubuntu:latest
+    steps:
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: spring-jar
+
+      - name: Deploy JAR
+        run: |
+          scp spring-jar/* azureuser@172.214.32.74:/home/azureuser/spring.jar
+          ssh azureuser@172.214.32.74 "sudo kill \$(pidof 'java') ; nohup java -jar /home/azureuser/spring.jar > /dev/null 2>&1 &"
